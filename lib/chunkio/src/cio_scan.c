@@ -112,14 +112,14 @@ static int cio_scan_stream_files(struct cio_ctx *ctx, struct cio_stream *st,
                 continue;
             }
             ret = snprintf(entpath, len, "%s/%s", path, ent->d_name);
-            if (!ret) {
+            if (ret == -1) {
                 cio_errno();
                 free(entpath);
                 cio_log_error(ctx, "[cio scan] Failed to delete corrupted chunk");
                 continue;
             }
             ret = unlink(entpath);
-            if (!ret) {
+            if (ret == -1) {
                 cio_errno();
                 free(entpath);
                 cio_log_error(ctx, "[cio scan] Failed to delete corrupted chunk");
